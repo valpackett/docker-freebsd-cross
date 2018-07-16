@@ -1,0 +1,12 @@
+[binaries]
+c = '/usr/local/bin/x86_64-unknown-freebsd11-clang'
+cpp = '/usr/local/bin/x86_64-unknown-freebsd11-clang++'
+ar = '/usr/bin/ar'
+strip = '/usr/bin/strip'
+pkgconfig = '/usr/bin/pkgconf'
+
+[host_machine]
+system = 'freebsd'
+cpu_family = 'x86_64'
+cpu = 'x86_64'
+endian = 'little'
