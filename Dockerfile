@@ -3,7 +3,7 @@ LABEL maintainer "Val Packett <val@packett.cool>"
 
 # Install pkg on Linux to download dependencies into the FreeBSD root
 RUN apk add --no-cache curl clang gcc pkgconf make autoconf automake libtool musl-dev xz-dev bzip2-dev zlib-dev zstd-dev lz4-dev expat-dev acl-dev fts-dev libbsd-dev openssl-dev libarchive-dev libarchive-tools
-ENV CFLAGS "-Wno-cpp -Wno-switch -D__BEGIN_DECLS='' -D__END_DECLS='' -DALLPERMS='S_ISUID|S_ISGID|S_ISVTX|S_IRWXU|S_IRWXG|S_IRWXO' -DDEFFILEMODE='S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH' -Droundup2='roundup' -D__GLIBC__"
+ENV CFLAGS "-Wno-cpp -Wno-switch -D__BEGIN_DECLS='' -D__END_DECLS='' -DDEFFILEMODE='S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH' -D__GLIBC__"
 ENV LDFLAGS "-lfts"
 RUN mkdir /pkg && \
 	curl -L https://github.com/freebsd/pkg/archive/c98721ebb5bf1d1f4425dfa418764864d824b5b0.tar.gz | \
