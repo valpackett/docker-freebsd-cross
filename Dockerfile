@@ -3,13 +3,13 @@ LABEL maintainer "Val Packett <val@packett.cool>"
 
 # Install pkg on Linux to download dependencies into the FreeBSD root
 RUN apk add --no-cache curl clang gcc pkgconf make autoconf automake libtool musl-dev xz-dev bzip2-dev zlib-dev zstd-dev lz4-dev expat-dev acl-dev fts-dev libbsd-dev openssl-dev libarchive-dev libarchive-tools
-ENV CFLAGS "-Wno-cpp -Wno-switch -D__BEGIN_DECLS='' -D__END_DECLS='' -DDEFFILEMODE='S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH' -D__GLIBC__"
-ENV LDFLAGS "-lfts"
 RUN mkdir /pkg && \
 	curl -L https://github.com/freebsd/pkg/archive/c98721ebb5bf1d1f4425dfa418764864d824b5b0.tar.gz | \
 		bsdtar -xf - -C /pkg && \
 	cd /pkg/pkg-* && \
 	ln -sf clang /usr/bin/cc && cc --version && \
+	export CFLAGS="-Wno-cpp -Wno-switch -D__BEGIN_DECLS='' -D__END_DECLS='' -DDEFFILEMODE='S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH' -D__GLIBC__" && \
+	export LDFLAGS="-lfts" && \
 	./configure --with-libarchive.pc && \
 	touch /usr/include/sys/unistd.h && \
 	touch /usr/include/sys/sysctl.h && \
@@ -20,7 +20,8 @@ RUN mkdir /pkg && \
 	mkdir -p /usr/local/etc && \
 	make -j4 install && \
 	cd / && \
-	rm -rf /pkg /usr/local/sbin/pkg2ng
+	rm -rf /pkg /usr/local/sbin/pkg2ng && \
+	unset CFLAGS LDFLAGS
 
 # Download FreeBSD base, extract libs/includes and pkg keys
 RUN mkdir /freebsd && \
